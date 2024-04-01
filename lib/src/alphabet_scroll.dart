@@ -104,8 +104,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   void init() {
     // alphabets = widget.list.map((e) => e.key.toLowerCase()[0]).toList();
 
-    widget.list
-        .sort((x, y) => x.key.toLowerCase().compareTo(y.key.toLowerCase()));
+    // widget.list
+    //     .sort((x, y) => x.key.toLowerCase().compareTo(y.key.toLowerCase()));
+
     _list = widget.list;
     setState(() {});
 
