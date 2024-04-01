@@ -102,6 +102,8 @@ class AlphabetScrollView extends StatefulWidget {
 
 class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   void init() {
+    // alphabets = widget.list.map((e) => e.key.toLowerCase()[0]).toList();
+
     widget.list
         .sort((x, y) => x.key.toLowerCase().compareTo(y.key.toLowerCase()));
     _list = widget.list;
@@ -131,6 +133,16 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     if (listController.hasClients) {
       maxScroll = listController.position.maxScrollExtent;
     }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      listController.position.isScrollingNotifier.addListener(() {
+        print('Scrolling');
+        int topIndex = (listController.offset) ~/ widget.itemExtent;
+        int sliderIndex = _filteredAlphabets
+            .indexOf(this._list[topIndex].key.toLowerCase()[0]);
+
+        _selectedIndexNotifier.value = sliderIndex;
+      });
+    });
     super.initState();
   }
 
@@ -143,7 +155,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   List<AlphaModel> _list = [];
   bool isLoading = false;
   bool isFocused = false;
+  Offset verticalOffset = Offset(0, 0);
   final key = GlobalKey();
+  // List<String> alphabets = [];
 
   @override
   void didUpdateWidget(covariant AlphabetScrollView oldWidget) {
@@ -222,7 +236,10 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
             padding: const EdgeInsets.symmetric(horizontal: 2),
             child: SingleChildScrollView(
               child: GestureDetector(
-                onVerticalDragStart: (z) => onVerticalDrag(z.localPosition),
+                onVerticalDragStart: (z) {
+                  verticalOffset = z.localPosition;
+                  onVerticalDrag(z.localPosition);
+                },
                 onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
                 onVerticalDragEnd: (z) {
                   setState(() {

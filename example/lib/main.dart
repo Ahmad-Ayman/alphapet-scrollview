@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -118,6 +118,28 @@ class _MyHomePageState extends State<MyHomePage> {
     'Rozalthiric',
     'Bookman'
   ];
+  // List<String> list = [
+  //   '1',
+  //   '2',
+  //   '3',
+  //   '4',
+  //   '5',
+  //   '6',
+  //   '7',
+  //   '8',
+  //   '9',
+  //   '10',
+  //   '11',
+  //   '12',
+  //   '13',
+  //   '14',
+  //   '15',
+  //   '16',
+  //   '17',
+  //   '18',
+  //   '19',
+  //   '20',
+  // ];
 
   int selectedIndex = 0;
   @override
@@ -135,15 +157,11 @@ class _MyHomePageState extends State<MyHomePage> {
               alignment: LetterAlignment.right,
               itemExtent: 50,
               unselectedTextStyle: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-                color: Colors.black
-              ),
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black),
               selectedTextStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red
-              ),
+                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
               overlayWidget: (value) => Stack(
                 alignment: Alignment.center,
                 children: [

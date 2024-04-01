@@ -7,8 +7,8 @@ repository: https://github.com/maheshmnj/alphabet_scroll_view
 issue_tracker: https://github.com/maheshmnj/alphabet_scroll_view
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.17.0"
+  sdk: '>=3.0.0 <4.0.0'
+
 
 dependencies:
   flutter:
@@ -18,7 +18,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ">=1.10.0-nullsafety.3 <3.0.0"
-  flutter_lints: 2.0.1
+#  pedantic: ">=1.10.0-nullsafety.3 <3.0.0"
+#  flutter_lints: 2.0.1
 
 
