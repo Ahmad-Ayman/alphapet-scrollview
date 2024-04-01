@@ -152,7 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Expanded(
             child: AlphabetScrollView(
-              list: list.map((e) => AlphaModel(e)).toList(),
+              list: list
+                  .map((e) => AlphaModel("${list.indexOf(e) + 1}", e))
+                  .toList(),
               // isAlphabetsFiltered: false,
               alignment: LetterAlignment.right,
               itemExtent: 50,
@@ -185,19 +187,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              itemBuilder: (_, k, id) {
+              itemBuilder:
+                  (BuildContext p0, int index, String key, String value) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: ListTile(
-                    title: Text('$id'),
+                    title: Text('$value'),
                     subtitle: Text('Secondary text'),
                     leading: Icon(Icons.person),
                     trailing: Radio<bool>(
                       value: false,
-                      groupValue: selectedIndex != k,
+                      groupValue: selectedIndex != index,
                       onChanged: (value) {
                         setState(() {
-                          selectedIndex = k;
+                          selectedIndex = index;
                         });
                       },
                     ),

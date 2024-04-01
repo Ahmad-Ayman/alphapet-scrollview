@@ -94,7 +94,8 @@ class AlphabetScrollView extends StatefulWidget {
   /// The itemBuilder must return a non-null widget and the third paramter id specifies
   /// the string mapped to this widget from the ```[list]``` passed.
 
-  Widget Function(BuildContext, int, String) itemBuilder;
+  Widget Function(BuildContext, int index, String key, String value)
+      itemBuilder;
 
   @override
   _AlphabetScrollViewState createState() => _AlphabetScrollViewState();
@@ -223,10 +224,15 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
             scrollDirection: Axis.vertical,
             itemCount: _list.length,
             physics: ClampingScrollPhysics(),
-            itemBuilder: (_, x) {
+            itemBuilder: (_, int index) {
               return ConstrainedBox(
                   constraints: BoxConstraints(maxHeight: widget.itemExtent),
-                  child: widget.itemBuilder(_, x, _list[x].key));
+                  child: widget.itemBuilder(
+                      _,
+                      index,
+                      _list[index].key,
+                      _list[index].value?.replaceAll(_list[index].key, "") ??
+                          ''));
             }),
         Align(
           alignment: widget.alignment == LetterAlignment.left
@@ -306,7 +312,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
 class AlphaModel {
   final String key;
-  final String? secondaryKey;
+  final String? value;
 
-  AlphaModel(this.key, {this.secondaryKey});
+  AlphaModel(this.key, this.value);
 }
