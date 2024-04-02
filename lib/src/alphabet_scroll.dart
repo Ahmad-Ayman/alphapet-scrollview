@@ -240,11 +240,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
               return ConstrainedBox(
                   constraints: BoxConstraints(maxHeight: widget.itemExtent),
                   child: widget.itemBuilder(
-                      _,
-                      index,
-                      _list[index].key,
-                      _list[index].value?.replaceAll(_list[index].key, "") ??
-                          ''));
+                      _, index, _list[index].key, _list[index].value));
             }),
         Align(
           alignment: widget.alignment == LetterAlignment.left
@@ -333,7 +329,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
 class AlphaModel {
   final String key;
-  final String? value;
+  final String value;
 
   AlphaModel(this.key, this.value);
 }
