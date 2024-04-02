@@ -8,6 +8,7 @@ class AlphabetScrollView extends StatefulWidget {
   AlphabetScrollView(
       {Key? key,
       required this.list,
+      this.selectedColor = Colors.transparent,
       this.hiddenIndicatorIndexes = const [],
       this.alignment = LetterAlignment.right,
       this.isAlphabetsFiltered = true,
@@ -35,6 +36,8 @@ class AlphabetScrollView extends StatefulWidget {
   /// items indexes that are exists in this list will be shown as "."
   /// Otherwise it will be shown normally.
   List<int> hiddenIndicatorIndexes;
+
+  Color selectedColor;
 
   /// ```itemExtent``` specifies the max height of the widget returned by
   /// itemBuilder if not specified defaults to 40.0
@@ -277,7 +280,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                                   const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
                                 color: selected == x
-                                    ? Colors.green
+                                    ? widget.selectedColor
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(10),
                               ),
