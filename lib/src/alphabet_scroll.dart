@@ -125,8 +125,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     if (widget.isAlphabetsFiltered) {
       List<String> temp = [];
       alphabets.forEach((letter) {
-        AlphaModel? firstAlphabetElement = _list.firstWhereOrNull(
-            (item) => item.key.toLowerCase().startsWith(letter.toLowerCase()));
+        AlphaModel? firstAlphabetElement = _list.firstWhereOrNull((item) {
+          return int.tryParse(item.key) == int.tryParse(letter);
+        });
         if (firstAlphabetElement != null) {
           temp.add(letter);
         }
@@ -149,8 +150,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
       listController.position.isScrollingNotifier.addListener(() {
         // print('Scrolling');
         int topIndex = (listController.offset) ~/ widget.itemExtent;
-        int sliderIndex = _filteredAlphabets
-            .indexOf(this._list[topIndex].key.toLowerCase()[0]);
+
+        int sliderIndex =
+            _filteredAlphabets.indexOf(this._list[topIndex].key.toLowerCase());
 
         _selectedIndexNotifier.value = sliderIndex;
       });
