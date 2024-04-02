@@ -112,7 +112,8 @@ class AlphabetScrollView extends StatefulWidget {
 
 class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   void init() {
-    // alphabets = widget.list.map((e) => e.key.toLowerCase()[0]).toList();
+    // generate numbers from 1 to 1000
+    alphabets = List.generate(1000, (index) => (index + 1).toString());
 
     // widget.list
     //     .sort((x, y) => x.key.toLowerCase().compareTo(y.key.toLowerCase()));
@@ -146,7 +147,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       listController.position.isScrollingNotifier.addListener(() {
-        print('Scrolling');
+        // print('Scrolling');
         int topIndex = (listController.offset) ~/ widget.itemExtent;
         int sliderIndex = _filteredAlphabets
             .indexOf(this._list[topIndex].key.toLowerCase()[0]);
@@ -164,6 +165,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   List<String> _filteredAlphabets = [];
   final letterKey = GlobalKey();
   List<AlphaModel> _list = [];
+  List<String> alphabets = [];
   bool isLoading = false;
   bool isFocused = false;
   Offset verticalOffset = Offset(0, 0);
