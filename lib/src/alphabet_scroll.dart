@@ -8,10 +8,11 @@ class AlphabetScrollView extends StatefulWidget {
   AlphabetScrollView(
       {Key? key,
       required this.list,
+      this.hiddenIndicatorIndexes = const [],
       this.alignment = LetterAlignment.right,
       this.isAlphabetsFiltered = true,
       this.overlayWidget,
-      required this.selectedTextStyle,
+      required this.visibleSelectedTextStyle,
       required this.unselectedTextStyle,
       this.itemExtent = 40,
       required this.itemBuilder})
@@ -29,6 +30,11 @@ class AlphabetScrollView extends StatefulWidget {
   /// each widget returned by ItemBuilder to uniquely identify
   /// that widget.
   final List<AlphaModel> list;
+
+  /// List of Indexes to be hidden in indicator,
+  /// items indexes that are exists in this list will be shown as "."
+  /// Otherwise it will be shown normally.
+  List<int> hiddenIndicatorIndexes;
 
   /// ```itemExtent``` specifies the max height of the widget returned by
   /// itemBuilder if not specified defaults to 40.0
@@ -76,7 +82,7 @@ class AlphabetScrollView extends StatefulWidget {
   ///   )
   /// ```
 
-  final TextStyle selectedTextStyle;
+  final TextStyle visibleSelectedTextStyle;
 
   /// Text styling for the unselected alphabet by which
   /// we can customize the font color, weight, size etc.
@@ -159,6 +165,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   bool isFocused = false;
   Offset verticalOffset = Offset(0, 0);
   final key = GlobalKey();
+
   // List<String> alphabets = [];
 
   @override
@@ -241,50 +248,57 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
           child: Container(
             key: key,
             padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: SingleChildScrollView(
-              child: GestureDetector(
-                onVerticalDragStart: (z) {
-                  verticalOffset = z.localPosition;
-                  onVerticalDrag(z.localPosition);
-                },
-                onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
-                onVerticalDragEnd: (z) {
-                  setState(() {
-                    isFocused = false;
-                  });
-                },
-                child: ValueListenableBuilder<int>(
-                    valueListenable: _selectedIndexNotifier,
-                    builder: (context, int selected, Widget? child) {
-                      return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            _filteredAlphabets.length,
-                            (x) => GestureDetector(
-                              key: x == selected ? letterKey : null,
-                              onTap: () {
-                                _selectedIndexNotifier.value = x;
-                                scrolltoIndex(x, positionNotifer.value);
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 2),
-                                child: Text(
-                                  _filteredAlphabets[x].toUpperCase(),
-                                  style: selected == x
-                                      ? widget.selectedTextStyle
-                                      : widget.unselectedTextStyle,
-                                  // style: TextStyle(
-                                  //     fontSize: 12,
-                                  //     fontWeight: selected == x
-                                  //         ? FontWeight.bold
-                                  //         : FontWeight.normal),
-                                ),
+            child: GestureDetector(
+              onVerticalDragStart: (z) {
+                verticalOffset = z.localPosition;
+                onVerticalDrag(z.localPosition);
+              },
+              onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
+              onVerticalDragEnd: (z) {
+                setState(() {
+                  isFocused = false;
+                });
+              },
+              child: ValueListenableBuilder<int>(
+                  valueListenable: _selectedIndexNotifier,
+                  builder: (context, int selected, Widget? child) {
+                    return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          _filteredAlphabets.length,
+                          (x) => GestureDetector(
+                            key: x == selected ? letterKey : null,
+                            onTap: () {
+                              _selectedIndexNotifier.value = x;
+                              scrolltoIndex(x, positionNotifer.value);
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              decoration: BoxDecoration(
+                                color: selected == x
+                                    ? Colors.green
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                widget.hiddenIndicatorIndexes.contains(x)
+                                    ? "."
+                                    : _filteredAlphabets[x].toUpperCase(),
+                                style: selected == x
+                                    ? widget.visibleSelectedTextStyle
+                                    : widget.unselectedTextStyle,
+                                textAlign: TextAlign.center,
+                                // style: TextStyle(
+                                //     fontSize: 12,
+                                //     fontWeight: selected == x
+                                //         ? FontWeight.bold
+                                //         : FontWeight.normal),
                               ),
                             ),
-                          ));
-                    }),
-              ),
+                          ),
+                        ));
+                  }),
             ),
           ),
         ),
@@ -299,7 +313,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                           widget.alignment == LetterAlignment.right ? 40 : null,
                       left:
                           widget.alignment == LetterAlignment.left ? 40 : null,
-                      top: position.dy,
+                      top: position.dy -
+                          (widget.visibleSelectedTextStyle.height! *
+                              widget.visibleSelectedTextStyle.fontSize!),
                       child: widget.overlayWidget == null
                           ? Container()
                           : widget.overlayWidget!(_filteredAlphabets[

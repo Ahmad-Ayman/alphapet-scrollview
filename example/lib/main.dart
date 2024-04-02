@@ -53,16 +53,19 @@ class _MyHomePageState extends State<MyHomePage> {
     '18lolly',
     '19princess',
     '20fairy',
-    // 'honey',
-    // 'snowflake',
-    // 'pretty',
-    // 'sugar',
-    // 'cherub',
-    // 'lovely',
-    // 'blossom',
-    // 'Ecophobia',
-    // 'Hippophobia',
-    // 'Scolionophobia',
+    '21honey',
+    '22snowflake',
+    '23pretty',
+    '24sugar',
+    '25cherub',
+    '26lovely',
+    '27blossom',
+    '28Ecophobia',
+    '28Ecophobia',
+    '28Ecophobia',
+    '28Ecophobia',
+    '28Ecophobia',
+
     // 'Ergophobia',
     // 'Musophobia',
     // 'Zemmiphobia',
@@ -152,6 +155,24 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Expanded(
             child: AlphabetScrollView(
+              hiddenIndicatorIndexes: [
+                1,
+                2,
+                3,
+                4,
+                6,
+                7,
+                8,
+                9,
+                11,
+                12,
+                13,
+                14,
+                16,
+                17,
+                18,
+                19,
+              ],
               list: list
                   .map((e) => AlphaModel("${list.indexOf(e) + 1}", e))
                   .toList(),
@@ -159,16 +180,21 @@ class _MyHomePageState extends State<MyHomePage> {
               alignment: LetterAlignment.right,
               itemExtent: 50,
               unselectedTextStyle: TextStyle(
-                  fontSize: 18,
+                  height: 2.5,
+                  fontSize: 10,
                   fontWeight: FontWeight.normal,
                   color: Colors.black),
-              selectedTextStyle: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+              visibleSelectedTextStyle: TextStyle(
+                  height: 2.5,
+                  fontSize: 10,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white),
               overlayWidget: (value) => Stack(
                 alignment: Alignment.center,
                 children: [
                   Icon(
-                    Icons.star,
+                    // indicator icon
+                    Icons.circle,
                     size: 50,
                     color: Colors.red,
                   ),
