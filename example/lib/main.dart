@@ -182,25 +182,8 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Expanded(
             child: AlphabetScrollView(
+              nodeIncrementValue: 6,
               selectedColor: Colors.green,
-              hiddenIndicatorIndexes: [
-                1,
-                2,
-                3,
-                4,
-                6,
-                7,
-                8,
-                9,
-                11,
-                12,
-                13,
-                14,
-                16,
-                17,
-                18,
-                19,
-              ],
               list: list
                   .map((e) => AlphaModel("${list.indexOf(e) + 1}", e))
                   .toList(),

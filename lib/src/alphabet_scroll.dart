@@ -11,8 +11,8 @@ class AlphabetScrollView extends StatefulWidget {
   AlphabetScrollView(
       {Key? key,
       required this.list,
+      required this.nodeIncrementValue,
       this.selectedColor = Colors.transparent,
-      this.hiddenIndicatorIndexes = const [],
       this.alignment = LetterAlignment.right,
       this.isAlphabetsFiltered = true,
       this.overlayWidget,
@@ -38,10 +38,12 @@ class AlphabetScrollView extends StatefulWidget {
   /// List of Indexes to be hidden in indicator,
   /// items indexes that are exists in this list will be shown as "."
   /// Otherwise it will be shown normally.
-  List<int> hiddenIndicatorIndexes;
+  // List<int> hiddenIndicatorIndexes;
 
   // do not change this value
-  final int dotsNumber = 6;
+  final int dotsNumber = 4;
+
+  final int nodeIncrementValue;
 
   Color selectedColor;
 
@@ -152,9 +154,10 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   void initState() {
     timer = RestartableTimer(Duration(milliseconds: 1000), () {});
 
-    visibleNumberJumpValue =
+    _visibleNumberJumpValue =
         widget.list.length ~/ (widget.dotsNumber + 1); // 20
-    dotsJumpValue = visibleNumberJumpValue ~/ (widget.dotsNumber - 1); // 5
+    // widget.dotsJumpValue = _visibleNumberJumpValue ~/ (widget.dotsNumber - 1); // 5
+    // dotsJumpValue = 7; // 5
     init();
     if (listController.hasClients) {
       maxScroll = listController.position.maxScrollExtent;
@@ -168,8 +171,8 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
           int sliderIndex = _filteredAlphabets
               .indexOf(this._list[topIndex].key.toLowerCase());
 
-          if (sliderIndex % dotsJumpValue == 0 ||
-              sliderIndex % visibleNumberJumpValue == 0)
+          if (sliderIndex % widget.nodeIncrementValue == 0 ||
+              sliderIndex % _visibleNumberJumpValue == 0)
             _selectedIndexNotifier.value = sliderIndex;
         }
       });
@@ -183,8 +186,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   final Map<String, int> firstIndexPosition = {};
   List<String> _filteredAlphabets = [];
   final letterKey = GlobalKey();
-  int visibleNumberJumpValue = 1;
-  int dotsJumpValue = 1;
+  int _visibleNumberJumpValue = 1;
   int lastSelectedIndex = 0;
   List<AlphaModel> _list = [];
   List<String> alphabets = [];
@@ -194,8 +196,8 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   Offset verticalOffset = Offset(0, 0);
   late RestartableTimer timer;
   final key = GlobalKey();
-
-  // List<String> alphabets = [];
+  // double lastVerticalPosition = 0.0;
+  double overlayVerticalPosition = 0;
 
   @override
   void didUpdateWidget(covariant AlphabetScrollView oldWidget) {
@@ -210,11 +212,18 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
   int getCurrentIndex(double vPosition) {
     try {
-      double kAlphabetHeight =
-          letterKey.currentContext!.size!.height / dotsJumpValue;
-      final selectedIndex = (vPosition ~/ kAlphabetHeight);
-      if (selectedIndex % dotsJumpValue == 0 ||
-          selectedIndex % visibleNumberJumpValue == 0) {
+      final double kAlphabetHeight =
+          letterKey.currentContext!.size!.height / widget.nodeIncrementValue;
+      final int selectedIndex = (vPosition ~/ kAlphabetHeight);
+
+      // print(
+      //     "subtraction: ${vPosition - lastVerticalPosition}, touchPosition: $vPosition");
+      // double diff = vPosition - lastVerticalPosition;
+      // if (diff < 50 && diff > 0) return lastSelectedIndex;
+
+      if (selectedIndex % widget.nodeIncrementValue == 0 ||
+          selectedIndex % _visibleNumberJumpValue == 0) {
+        // lastVerticalPosition = vPosition;
         lastSelectedIndex = selectedIndex;
       }
       return lastSelectedIndex;
@@ -284,12 +293,14 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
     if (index == 0)
       text = value.toUpperCase();
-    else if (index % dotsJumpValue == 0 && index % visibleNumberJumpValue != 0)
+    else if (index % widget.nodeIncrementValue == 0 &&
+        index % _visibleNumberJumpValue != 0)
       text = ".";
-    else if (index % visibleNumberJumpValue == 0) text = value.toUpperCase();
+    else if (index % _visibleNumberJumpValue == 0) text = value.toUpperCase();
 
     // widget conditions
-    if (index % dotsJumpValue == 0 || index % visibleNumberJumpValue == 0)
+    if (index % widget.nodeIncrementValue == 0 ||
+        index % _visibleNumberJumpValue == 0)
       textWidget = Text(
         text,
         style: selected
@@ -360,8 +371,8 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                           _filteredAlphabets.length,
                           (index) => GestureDetector(
                             key: (index == selectedIndex &&
-                                    (index % dotsJumpValue == 0 ||
-                                        index % visibleNumberJumpValue == 0))
+                                    (index % widget.nodeIncrementValue == 0 ||
+                                        index % _visibleNumberJumpValue == 0))
                                 ? letterKey
                                 : null,
                             onTap: () {
@@ -414,12 +425,15 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                 valueListenable: positionNotifer,
                 builder:
                     (BuildContext context, Offset position, Widget? child) {
+                  overlayVerticalPosition = (position.dy) -
+                      (widget.visibleSelectedTextStyle.height! *
+                          widget.visibleSelectedTextStyle.fontSize!);
                   return Positioned(
                       right:
                           widget.alignment == LetterAlignment.right ? 40 : null,
                       left:
                           widget.alignment == LetterAlignment.left ? 40 : null,
-                      top: position.dy -
+                      top: (position.dy) -
                           (widget.visibleSelectedTextStyle.height! *
                               widget.visibleSelectedTextStyle.fontSize!),
                       child: widget.overlayWidget == null
