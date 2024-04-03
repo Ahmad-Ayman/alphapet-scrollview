@@ -32,6 +32,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {}
 
+  @override
+  initState() {
+    list.clear();
+    for (var i = 0; i < 114; i++) {
+      list.add((i + 1).toString());
+    }
+    super.initState();
+  }
+
   List<String> list = [
     '1angel',
     '2bubbles',
@@ -61,10 +70,28 @@ class _MyHomePageState extends State<MyHomePage> {
     '26lovely',
     '27blossom',
     '28Ecophobia',
-    '28Ecophobia',
-    '28Ecophobia',
-    '28Ecophobia',
-    '28Ecophobia',
+    '29Ecophobia',
+    '30Ecophobia',
+    '31Ecophobia',
+    '32Ecophobia',
+    '33Ecophobia',
+    '34Ecophobia',
+    '35Ecophobia',
+    '36Ecophobia',
+    '37Ecophobia',
+    '38Ecophobia',
+    '39Ecophobia',
+    '40Ecophobia',
+    '41Ecophobia',
+    '42Ecophobia',
+    '43Ecophobia',
+    '44Ecophobia',
+    '45Ecophobia',
+    '46Ecophobia',
+    '47Ecophobia',
+    '48Ecophobia',
+    '49Ecophobia',
+    '50Ecophobia',
 
     // 'Ergophobia',
     // 'Musophobia',
@@ -155,6 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Expanded(
             child: AlphabetScrollView(
+              selectedColor: Colors.green,
               hiddenIndicatorIndexes: [
                 1,
                 2,
@@ -177,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   .map((e) => AlphaModel("${list.indexOf(e) + 1}", e))
                   .toList(),
               // isAlphabetsFiltered: false,
-              alignment: LetterAlignment.right,
+              alignment: LetterAlignment.left,
               itemExtent: 50,
               unselectedTextStyle: TextStyle(
                   height: 2.5,
