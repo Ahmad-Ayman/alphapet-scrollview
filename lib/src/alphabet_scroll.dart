@@ -197,7 +197,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   late RestartableTimer timer;
   final key = GlobalKey();
   // double lastVerticalPosition = 0.0;
-  double overlayVerticalPosition = 0;
+  // double overlayVerticalPosition = 0;
 
   @override
   void didUpdateWidget(covariant AlphabetScrollView oldWidget) {
@@ -425,7 +425,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                 valueListenable: positionNotifer,
                 builder:
                     (BuildContext context, Offset position, Widget? child) {
-                  overlayVerticalPosition = (position.dy) -
+                  (position.dy) -
                       (widget.visibleSelectedTextStyle.height! *
                           widget.visibleSelectedTextStyle.fontSize!);
                   return Positioned(
