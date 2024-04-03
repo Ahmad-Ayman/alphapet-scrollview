@@ -287,9 +287,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     // text conditions
     String text = "";
     Widget textWidget = SizedBox();
-    if (index == 60) {
-      print("");
-    }
+    // if (index == 60) {
+    //   print("");
+    // }
 
     if (index == 0)
       text = value.toUpperCase();
