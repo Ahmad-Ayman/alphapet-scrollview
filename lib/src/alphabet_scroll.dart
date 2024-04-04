@@ -19,6 +19,7 @@ class AlphabetScrollView extends StatefulWidget {
       required this.visibleSelectedTextStyle,
       required this.unselectedTextStyle,
       this.itemExtent = 40,
+      this.dotsNumber = 4,
       required this.itemBuilder})
       : super(key: key);
 
@@ -41,7 +42,7 @@ class AlphabetScrollView extends StatefulWidget {
   // List<int> hiddenIndicatorIndexes;
 
   // do not change this value
-  final int dotsNumber = 4;
+  final int dotsNumber;
 
   final int nodeIncrementValue;
 
