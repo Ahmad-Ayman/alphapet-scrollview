@@ -391,10 +391,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     return Container(
       height: MediaQuery.sizeOf(context).height,
       width: MediaQuery.sizeOf(context).width,
-      child: Row(
+      child: Stack(
         children: [
-          Expanded(
-            child: ListView.builder(
+           ListView.builder(
                 controller: listController,
                 scrollDirection: Axis.vertical,
                 itemCount: _list.length,
@@ -405,7 +404,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                       child: widget.itemBuilder(
                           _, index, _list[index].key, _list[index].value));
                 }),
-          ),
+
           Align(
             alignment: widget.alignment == LetterAlignment.left
                 ? Alignment.centerLeft
