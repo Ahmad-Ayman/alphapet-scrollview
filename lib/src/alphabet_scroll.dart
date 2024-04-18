@@ -267,7 +267,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
   void scrolltoIndex(int x, Offset offset) {
     int index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
-    final scrollToPostion = widget.itemExtent * index;
+    final scrollToPostion = widget.itemExtent * (index -1) ;
     if (index != null) {
       isScrolling = true;
       timer.reset();
@@ -332,26 +332,26 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
         print('index in $index : text = ${text}');
       }
     }
-    else if (_visibleNumberJumpValue == 20){
-      if (index == 0) {
-        text = value.toUpperCase();
-        print('index  in $index : text = ${text}');
-      }
-      else if(index == 113){
-        text = value.toUpperCase();
-      }
-      else if (
-      // index % widget.nodeIncrementValue == 0 &&
-      index % _visibleNumberJumpValue != (_visibleNumberJumpValue - 1)  && int.parse(value) % 5 == 0 ) {
-        text = ".";
-        print('index in $index : text = ${text}');
-      }
-      else
-      if (index % _visibleNumberJumpValue == (_visibleNumberJumpValue - 1)) {
-        text = value.toUpperCase();
-        print('index in $index : text = ${text}');
-      }
-    }
+    // else if (_visibleNumberJumpValue == 20){
+    //   if (index == 0) {
+    //     text = value.toUpperCase();
+    //     print('index  in $index : text = ${text}');
+    //   }
+    //   else if(index == 113){
+    //     text = value.toUpperCase();
+    //   }
+    //   else if (
+    //   // index % widget.nodeIncrementValue == 0 &&
+    //   index % _visibleNumberJumpValue != (_visibleNumberJumpValue - 1)  && int.parse(value) % 5 == 0 ) {
+    //     text = ".";
+    //     print('index in $index : text = ${text}');
+    //   }
+    //   else
+    //   if (index % _visibleNumberJumpValue == (_visibleNumberJumpValue - 1)) {
+    //     text = value.toUpperCase();
+    //     print('index in $index : text = ${text}');
+    //   }
+    // }
     // widget conditions
     // if (index % widget.nodeIncrementValue == 0 ||
     //     index % _visibleNumberJumpValue == 0)
