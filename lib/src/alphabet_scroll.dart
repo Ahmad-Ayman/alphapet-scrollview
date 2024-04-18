@@ -157,13 +157,13 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   void initState() {
     timer = RestartableTimer(Duration(milliseconds: 1000), () {});
 
-    if(widget.maxNumber == 30) {
+    if(widget.maxNumber == 30 || widget.maxNumber == 114) {
       _visibleNumberJumpValue =5; // 20
        // _visibleNumberJumpValue =
        //    widget.list.length ~/ (widget.dotsNumber ); // 20
-    }else if (widget.maxNumber == 114){
-      _visibleNumberJumpValue = 20; // 20
-    }
+    // }else if (widget.maxNumber == 114){
+    //   _visibleNumberJumpValue = 5; // 20
+     }
     else{
       _visibleNumberJumpValue =
           widget.list.length ~/ (widget.dotsNumber + 1); // 20
@@ -313,11 +313,13 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
     print('indexes : ${index} -- value : ${value}  -- selected : ${selected} -- visible : ${_visibleNumberJumpValue}');
     if(_visibleNumberJumpValue == 5) {
-      if (index == 0) {
+      if (index == 0 ) {
         text = value.toUpperCase();
         print('index in $index : text = ${text}');
       }
-
+      else    if(index == 113){
+        text = value.toUpperCase();
+      }
       else if (
       // index % widget.nodeIncrementValue == 0 &&
       index % _visibleNumberJumpValue != (_visibleNumberJumpValue - 1)) {
@@ -335,7 +337,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
         text = value.toUpperCase();
         print('index  in $index : text = ${text}');
       }
-      if(index == 113){
+      else if(index == 113){
         text = value.toUpperCase();
       }
       else if (
