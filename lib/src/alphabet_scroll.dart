@@ -267,7 +267,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
   void scrolltoIndex(int x, Offset offset) {
     int index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
-    final scrollToPostion = widget.itemExtent * (index -1) ;
+    final scrollToPostion = widget.itemExtent * index ;
     if (index != null) {
       isScrolling = true;
       timer.reset();
@@ -395,17 +395,20 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
       width: MediaQuery.sizeOf(context).width,
       child: Stack(
         children: [
-           ListView.builder(
-                controller: listController,
-                scrollDirection: Axis.vertical,
-                itemCount: _list.length,
-                physics: ClampingScrollPhysics(),
-                itemBuilder: (_, int index) {
-                  return ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: widget.itemExtent),
-                      child: widget.itemBuilder(
-                          _, index, _list[index].key, _list[index].value));
-                }),
+           Padding(
+             padding: const EdgeInsets.only(left: 10.0),
+             child: ListView.builder(
+                  controller: listController,
+                  scrollDirection: Axis.vertical,
+                  itemCount: _list.length,
+                  physics: ClampingScrollPhysics(),
+                  itemBuilder: (_, int index) {
+                    return ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: widget.itemExtent),
+                        child: widget.itemBuilder(
+                            _, index, _list[index].key, _list[index].value));
+                  }),
+           ),
 
           Align(
             alignment: widget.alignment == LetterAlignment.left
@@ -416,16 +419,16 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
               height: MediaQuery.sizeOf(context).height,
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: GestureDetector(
-                onVerticalDragStart: (z) {
-                  verticalOffset = z.localPosition;
-                  onVerticalDrag(z.localPosition);
-                },
-                onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
-                onVerticalDragEnd: (z) {
-                  setState(() {
-                    isFocused = false;
-                  });
-                },
+                // onVerticalDragStart: (z) {
+                //   verticalOffset = z.localPosition;
+                //   onVerticalDrag(z.localPosition);
+                // },
+                // onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
+                // onVerticalDragEnd: (z) {
+                //   setState(() {
+                //     isFocused = false;
+                //   });
+                // },
                 child: ValueListenableBuilder<int>(
                     valueListenable: _selectedIndexNotifier,
                     builder: (context, int selectedIndex, Widget? child) {
